@@ -15,6 +15,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   "https://frontemd.netlify.app",
+  "https://password-reset-backend-91o4.onrender.com",
 ];
 
 app.use(express.json());
