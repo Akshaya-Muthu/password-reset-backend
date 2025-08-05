@@ -8,13 +8,13 @@ import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5001;
 connectDB();
 
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
-  "https://frontemd.netlify.app/",
+  "https://frontemd.netlify.app",
 ];
 
 app.use(express.json());
