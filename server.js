@@ -14,7 +14,7 @@ connectDB();
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
-  "https://mern-auth-client-seven.vercel.app",
+  "https://frontemd.netlify.app/",
 ];
 
 app.use(express.json());
