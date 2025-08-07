@@ -49,8 +49,8 @@ export const register = async (req, res) => {
 
     return res.json({ success: true });
   } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: error.message });
+    console.log("Error in register controller", error);
+    res.json({ success: false, message: "Something went wrong" });
   }
 };
 
@@ -90,7 +90,8 @@ export const login = async (req, res) => {
 
     return res.json({ success: true });
   } catch (error) {
-    return res.json({ success: false, message: error.message });
+    console.log("Error in login controller", error);
+    return res.json({ success: false, message: "Something went wrong" });
   }
 };
 
@@ -104,7 +105,8 @@ export const logout = async (req, res) => {
 
     return res.json({ success: true, message: "Logged Out" });
   } catch (error) {
-    return res.json({ success: false, message: error.message });
+    console.log("Error in logout controller", error);
+    return res.json({ success: false, message: "Something went wrong" });
   }
 };
 
@@ -141,7 +143,8 @@ export const sendVerifyOtp = async (req, res) => {
 
     res.json({ success: true, message: "Verification OTP sent to your email" });
   } catch (error) {
-    res.json({ success: false, message: error.message });
+    console.log("Error in sendVerifyOtp controller", error);
+    res.json({ success: false, message: "Something went wrong" });
   }
 };
 
@@ -179,7 +182,8 @@ export const verifyEmail = async (req, res) => {
 
     return res.json({ success: true, message: "Email verified successfully" });
   } catch (error) {
-    res.json({ success: false, message: error.message });
+    console.log("Error in verifyEmail controller", error);
+    res.json({ success: false, message: "Something went wrong" });
   }
 };
 
@@ -188,7 +192,8 @@ export const isAuthenticated = async (req, res) => {
   try {
     return res.json({ success: true });
   } catch (error) {
-    res.json({ success: false, message: error.message });
+    console.log("Error in isAuthenticated controller", error);
+    res.json({ success: false, message: "Something went wrong" });
   }
 };
 
@@ -232,7 +237,8 @@ export const sendResetOtp = async (req, res) => {
 
     return res.json({ success: true, message: "OTP sent to your email" });
   } catch (error) {
-    return res.json({ success: false, message: error.message });
+    console.log("Error in sendResetOtp controller", error);
+    return res.json({ success: false, message: "Something went wrong" });
   }
 };
 
@@ -275,6 +281,7 @@ export const resetPassword = async (req, res) => {
       message: "Password has been reset successfully",
     });
   } catch (error) {
-    return res.json({ success: false, message: error.message });
+    console.log("Error in resetPassword controller", error);
+    return res.json({ success: false, message: "Something went wrong" });
   }
 };
