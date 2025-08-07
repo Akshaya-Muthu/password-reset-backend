@@ -8,22 +8,21 @@ import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 
 const app = express();
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 5000;
+
 connectDB();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "http://localhost:5174",
-  "https://frontemd.netlify.app",
+  "https://frontemd.netlify.app/", // ✅ Make sure this matches your Netlify frontend URL
 ];
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 
-// API Endpoints
-app.get("/", (req, res) => res.send("API Working"));
+app.get("/", (req, res) => res.send("API Working ✅"));
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 
-app.listen(port, () => console.log(`Server started on PORT: ${port}`));
+app.listen(port, () => console.log(`🚀 Server running on PORT: ${port}`));
