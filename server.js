@@ -8,21 +8,41 @@ import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
+// Connect to MongoDB
 connectDB();
 
+// Allowed origins
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://frontemd.netlify.app/", // ✅ Make sure this matches your Netlify frontend URL
+  "http://localhost:5174",
+  "https://frontemd.netlify.app", // Your Netlify frontend
 ];
 
+// Dynamic CORS options
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl) or matching allowedOrigins
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: allowedOrigins, credentials: true }));
 
-app.get("/", (req, res) => res.send("API Working ✅"));
+// Test route
+app.get("/", (req, res) => res.send("API Working"));
+
+// Routes
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 
-app.listen(port, () => console.log(`🚀 Server running on PORT: ${port}`));
+// Start server
+app.listen(port, () => console.log(`Server started on PORT: ${port}`));
