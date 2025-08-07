@@ -8,41 +8,43 @@ import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 
 const app = express();
-const port = process.env.PORT || 5001;
-
-// Connect to MongoDB
+const port = process.env.PORT || 5000;
 connectDB();
 
-// Allowed origins
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
-  "https://frontemd.netlify.app", // Your Netlify frontend
+  "https://frontemd.netlify.app",
 ];
 
-// Dynamic CORS options
-const corsOptions = {
+// CORS middleware
+app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl) or matching allowedOrigins
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      return callback(new Error("CORS Not Allowed"));
     }
   },
   credentials: true,
-};
+}));
 
-app.use(cors(corsOptions));
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
 
-// Test route
-app.get("/", (req, res) => res.send("API Working"));
-
 // Routes
+app.get("/", (req, res) => res.send("API Working ✅"));
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 
-// Start server
-app.listen(port, () => console.log(`Server started on PORT: ${port}`));
+// Error handling for CORS
+app.use((err, req, res, next) => {
+  if (err.message === "CORS Not Allowed") {
+    return res.status(403).json({ success: false, message: "Blocked by CORS" });
+  }
+  next(err);
+});
+
+app.listen(port, () => console.log(`🚀 Server running on PORT: ${port}`));
