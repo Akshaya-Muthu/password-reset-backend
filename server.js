@@ -11,24 +11,17 @@ const app = express();
 const port = process.env.PORT || 5000;
 connectDB();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:5174",
-  "https://frontemd.netlify.app",
-];
-
-// CORS middleware
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      return callback(new Error("CORS Not Allowed"));
-    }
-  },
-  credentials: true,
-}));
+// ✅ UPDATED CORS CONFIG
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "https://frontemd.netlify.app", // Make sure this matches the actual Netlify frontend domain
+    ],
+    credentials: true,
+  })
+);
 
 // Middleware
 app.use(express.json());
@@ -39,12 +32,10 @@ app.get("/", (req, res) => res.send("API Working ✅"));
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 
-// Error handling for CORS
+// Global Error Handler (Optional)
 app.use((err, req, res, next) => {
-  if (err.message === "CORS Not Allowed") {
-    return res.status(403).json({ success: false, message: "Blocked by CORS" });
-  }
-  next(err);
+  console.error("Unhandled Error:", err.message);
+  res.status(500).json({ success: false, message: "Something went wrong!" });
 });
 
 app.listen(port, () => console.log(`🚀 Server running on PORT: ${port}`));
